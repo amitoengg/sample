@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class Next_Closest_Time_Test {
+class p1_test {
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -43,7 +43,7 @@ class Next_Closest_Time_Test {
 	@ParameterizedTest
 	@MethodSource("stringAndStringProvider")
 	void test1(String input, String expected_output) {
-		Next_Closest_Time nct = new Next_Closest_Time();
+		p1 nct = new p1();
 		String result = nct.nextClosestTime(input);
 		assertEquals(result, expected_output);
 	}
