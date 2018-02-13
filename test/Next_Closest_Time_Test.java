@@ -42,7 +42,7 @@ class Next_Closest_Time_Test {
 
 	@ParameterizedTest
 	@MethodSource("stringAndStringProvider")
-	void personIsAdultWithArguments(String input, String expected_output) {
+	void test1(String input, String expected_output) {
 		Next_Closest_Time nct = new Next_Closest_Time();
 		String result = nct.nextClosestTime(input);
 		assertEquals(result, expected_output);

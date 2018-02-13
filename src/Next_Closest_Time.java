@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Given a time represented in the format "HH:MM", form the next closest time by
@@ -21,8 +23,28 @@ import java.util.Arrays;
  *
  */
 public class Next_Closest_Time {
+	public String nextClosestTime(String time) {
+		int cur = 60 * Integer.parseInt(time.substring(0, 2));
+		cur += Integer.parseInt(time.substring(3));
+		Set<Integer> allowed = new HashSet();
+		for (char c : time.toCharArray())
+			if (c != ':') {
+				allowed.add(c - '0');
+			}
 
-	public String nextClosestTime(String input) {
+		while (true) {
+			cur = (cur + 1) % (24 * 60);
+			int[] digits = new int[] { cur / 60 / 10, cur / 60 % 10, cur % 60 / 10, cur % 60 % 10 };
+			search: {
+				for (int d : digits)
+					if (!allowed.contains(d))
+						break search;
+				return String.format("%02d:%02d", cur / 60, cur % 60);
+			}
+		}
+	}
+
+	public String nextClosestTime1(String input) {
 		String result = null;
 		String parts[] = input.split(":");
 		int input_format[] = new int[4];
@@ -36,7 +58,7 @@ public class Next_Closest_Time {
 		}
 		currentBest = input_format.clone();
 		generatePermutation(input_format, 0);
-		System.out.println("Best"+Arrays.toString(currentBest));
+		System.out.println("Best" + Arrays.toString(currentBest));
 
 		return result;
 	}
@@ -53,12 +75,11 @@ public class Next_Closest_Time {
 	public static boolean compareTime(int[] src, int[] best) {
 		int src_time = ((src[0] * 10) + src[1]) * 60 + ((src[2] * 10) + src[3]);
 		int best_time = ((best[0] * 10) + best[1]) * 60 + ((best[2] * 10) + best[3]);
-		int diff = Math.abs(src_time-best_time);
-		if (diff > 0 && curBestDiff> diff) {
+		int diff = Math.abs(src_time - best_time);
+		if (diff > 0 && curBestDiff > diff) {
 			curBestDiff = diff;
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
@@ -71,7 +92,8 @@ public class Next_Closest_Time {
 		if (posK == ary.length) {
 			if (isValidTime(ary[0], ary[1], ary[2], ary[3])) {
 				if (compareTime(ary, currentBest)) {
-					currentBest = ary.clone();;
+					currentBest = ary.clone();
+					;
 				}
 			}
 			System.out.println(posK + " " + Arrays.toString(ary));
